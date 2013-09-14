@@ -16,7 +16,18 @@ TEST_F(TicTacToeMoves, MakeShureMovesAreWithInBounds) {
 }
 
 TEST_F(TicTacToeMoves, MakeShureThatNextMoveIsPossible) {
-	ASSERT_THAT(tictactoe.addMoveToBoard(1, 2, TicTacToe::BoardValues::playerX), Eq(true));
-	ASSERT_THAT(tictactoe.addMoveToBoard(1, 2, TicTacToe::BoardValues::playerO), Eq(false));
-	ASSERT_THAT(tictactoe.addMoveToBoard(1, 3, TicTacToe::BoardValues::playerO), Eq(true));
+	ASSERT_THAT(tictactoe.addMoveToBoard(1, 1, TicTacToe::Player::playerX), Eq(true));
+	ASSERT_THAT(tictactoe.addMoveToBoard(1, 1, TicTacToe::Player::playerO), Eq(false));
+	ASSERT_THAT(tictactoe.addMoveToBoard(1, 3, TicTacToe::Player::playerO), Eq(true));
+}
+
+TEST_F(TicTacToeMoves, DetectWhenAPlayerHasThreeInARow) {
+	ASSERT_THAT(tictactoe.threeInARow(TicTacToe::Player::none), Eq(TicTacToe::Player::none));
+	ASSERT_THAT(tictactoe.threeInARow(TicTacToe::Player::playerX), Eq(TicTacToe::Player::none));
+	ASSERT_THAT(tictactoe.addMoveToBoard(1, 1, TicTacToe::Player::playerX), Eq(true));
+	ASSERT_THAT(tictactoe.threeInARow(TicTacToe::Player::playerX), Eq(TicTacToe::Player::none));
+	ASSERT_THAT(tictactoe.addMoveToBoard(1, 2, TicTacToe::Player::playerX), Eq(true));
+	ASSERT_THAT(tictactoe.threeInARow(TicTacToe::Player::playerX), Eq(TicTacToe::Player::none));
+	ASSERT_THAT(tictactoe.addMoveToBoard(1, 3, TicTacToe::Player::playerX), Eq(true));
+	ASSERT_THAT(tictactoe.threeInARow(TicTacToe::Player::playerX), Eq(TicTacToe::Player::playerX));
 }

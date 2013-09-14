@@ -7,23 +7,28 @@
 class TicTacToe
 {
 public:
-    enum class BoardValues : std::int8_t {
-        isEmpty = 0,
+    enum class Player : std::int8_t {
+        none = 0,
         playerX = 1,
         playerO = 2
     };
-
-	BoardValues board[3][3];
 
 	bool move(const int a, const int b) const {
 		return isMoveInRange(a, b);
 	}
 
-	bool addMoveToBoard(const int a, const int b, BoardValues player)  {
+	bool addMoveToBoard(const int a, const int b, Player player)  {
 		return validateMoveOnBoard(a, b, player);
 	}
 
+	TicTacToe::Player threeInARow(Player player) {
+		return whoHasThreeInARow(player);
+	}
+
+
 private:
+	Player board[3][3];
+
 	bool isMoveInRange(const int a, const int b) const {
 		return ((a > 0 && a < 4) && (b > 0 && b < 4)) ? true : false;
 	}
@@ -32,19 +37,36 @@ private:
 		return --a;
 	}
 
-	bool isValidMove(const int a, const int b, const BoardValues player) {
-		BoardValues boardValue = board[getIndex(a)][getIndex(b)];
-		if (boardValue == BoardValues::playerX || boardValue == BoardValues::playerO) return false;
+	bool isValidMove(const int a, const int b, const Player player) {
+		Player boardValue = board[getIndex(a)][getIndex(b)];
+		if (boardValue == Player::playerX || boardValue == Player::playerO) return false;
 		board[getIndex(a)][getIndex(b)] = player;
 		return true;
 	}
 
-	bool validateMoveOnBoard(const int a, const int b, const BoardValues player)  {
+	bool validateMoveOnBoard(const int a, const int b, const Player player)  {
 		bool validMove = false;
 		validMove = isMoveInRange(a ,b);
 		if (!validMove) return false;
         if (!isValidMove(a, b, player)) return false;
 		return true;
+	}
+
+	// I'm not shure this is a very good approach. I'll look up other solutions
+	// when this is working as intended.
+	TicTacToe::Player whoHasThreeInARow(Player player) {
+		TicTacToe::Player p = Player::none;
+
+		if (board[0][0] == board[0][1] && board[0][2] == player) return player;
+		if (board[1][0] == board[1][1] && board[1][2] == player) return player;
+		if (board[2][0] == board[2][1] && board[2][2] == player) return player;
+		if (board[0][0] == board[1][1] && board[2][2] == player) return player;
+		if (board[2][0] == board[1][1] && board[0][2] == player) return player;
+		if (board[0][0] == board[1][0] && board[2][0] == player) return player;
+		if (board[0][1] == board[1][1] && board[2][1] == player) return player;
+		if (board[0][2] == board[1][2] && board[2][2] == player) return player;
+		
+		return p;
 	}
 };
 
