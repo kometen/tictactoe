@@ -25,8 +25,13 @@ public:
 		return whoHasThreeInARow(player);
 	}
 
+	bool canPlayerMakeNextMove(Player player) {
+		return validPlayer(player);
+	}
+
 
 private:
+	Player nextTurn = Player::playerX;
 	Player board[3][3];
 
 	bool isMoveInRange(const int a, const int b) const {
@@ -59,14 +64,35 @@ private:
 
 		if (board[0][0] == board[0][1] && board[0][2] == player) return player;
 		if (board[1][0] == board[1][1] && board[1][2] == player) return player;
+//		( )( )( )
+//		(x)(x)(x)
+//		( )( )( )
+
 		if (board[2][0] == board[2][1] && board[2][2] == player) return player;
 		if (board[0][0] == board[1][1] && board[2][2] == player) return player;
+//		(x)( )( )
+//		( )(x)( )
+//		( )( )(x)
+
 		if (board[2][0] == board[1][1] && board[0][2] == player) return player;
 		if (board[0][0] == board[1][0] && board[2][0] == player) return player;
 		if (board[0][1] == board[1][1] && board[2][1] == player) return player;
+//		( )(x)( )
+//		( )(x)( )
+//		( )(x)( )
+
 		if (board[0][2] == board[1][2] && board[2][2] == player) return player;
-		
+
 		return p;
+	}
+
+	bool validPlayer(Player player) {
+		if (player == nextTurn)
+		{
+			(player == Player::playerX) ? nextTurn = Player::playerO : nextTurn = Player::playerX;
+			return true;
+		}
+		return false;
 	}
 };
 

@@ -31,3 +31,10 @@ TEST_F(TicTacToeMoves, DetectWhenAPlayerHasThreeInARow) {
 	ASSERT_THAT(tictactoe.addMoveToBoard(1, 3, TicTacToe::Player::playerX), Eq(true));
 	ASSERT_THAT(tictactoe.threeInARow(TicTacToe::Player::playerX), Eq(TicTacToe::Player::playerX));
 }
+
+TEST_F(TicTacToeMoves, MakeShureThatEachPlayerTakeTurns) {
+	ASSERT_THAT(tictactoe.canPlayerMakeNextMove(TicTacToe::Player::playerX), Eq(true));
+	ASSERT_THAT(tictactoe.canPlayerMakeNextMove(TicTacToe::Player::playerX), Eq(false));
+	ASSERT_THAT(tictactoe.canPlayerMakeNextMove(TicTacToe::Player::playerO), Eq(true));
+	ASSERT_THAT(tictactoe.canPlayerMakeNextMove(TicTacToe::Player::playerO), Eq(false));
+}
